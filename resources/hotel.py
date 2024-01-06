@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from models.hotel_model import HotelModel
 
 hoteis = [
 	{
@@ -54,7 +55,9 @@ class Hotel(Resource):
         
         dados = Hotel.argumentos.parse_args()
 
-        novo_hotel = {'hotel_id': hotel_id, **dados}
+        hotel_objeto = HotelModel(hotel_id, **dados)
+
+        novo_hotel= hotel_objeto.json()
 
         hoteis.append(novo_hotel)
 
@@ -64,7 +67,9 @@ class Hotel(Resource):
 
         dados = Hotel.argumentos.parse_args()
 
-        novo_hotel = {'hotel_id': hotel_id, **dados}
+        hotel_objeto = HotelModel(hotel_id, **dados)
+
+        novo_hotel= hotel_objeto.json()
 
         hotel = Hotel.encontrar_hotel(hotel_id)
         if hotel:

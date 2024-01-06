@@ -1,35 +1,12 @@
 from flask_restful import Resource, reqparse
 from models.hotel_model import HotelModel
-
-hoteis = [
-	{
-		'hotel_id': 'alpha',
-		'nome':'Alhpa Hotel',
-		'estrelas':4.3,
-		'diaria':420.34,
-		'cidade':'Rio de Janeiro'
-	},
-	{
-		'hotel_id': 'bravo',
-		'nome':'Bravo Hotel',
-		'estrelas':4.4,
-		'diaria':380.90,
-		'cidade':'Santa Catarina'
-	},
-	{
-		'hotel_id': 'charlie',
-		'nome':'Charlie Hotel',
-		'estrelas':4.5,
-		'diaria':450.90,
-		'cidade':'São Paulo'
-	}
-]
-
+from bd.table import insert_bd, get_bd, get_item, update_bd, delete_bd
 
 class Hoteis(Resource):
 
 	def get(self):
-		return {'hoteis': hoteis}
+          
+		return {'hoteis': get_bd()}
 	
 class Hotel(Resource):
     argumentos = reqparse.RequestParser()
@@ -37,16 +14,10 @@ class Hotel(Resource):
     argumentos.add_argument('estrelas')
     argumentos.add_argument('diaria')
     argumentos.add_argument('cidade')
-
-	
-    def encontrar_hotel(hotel_id):
-        for hotel in hoteis:
-            if hotel['hotel_id'] == hotel_id:
-                return hotel
-        return None
     
     def get(self, hotel_id):
-        hotel = Hotel.encontrar_hotel(hotel_id)
+
+        hotel = get_item(hotel_id)
         if hotel:
              return hotel
         return {'message': 'Hotel not found.'}, 404 # not found
@@ -59,27 +30,31 @@ class Hotel(Resource):
 
         novo_hotel= hotel_objeto.json()
 
-        hoteis.append(novo_hotel)
+        hotel = insert_bd(**novo_hotel)
 
-        return novo_hotel, 200
+        #hoteis.append(novo_hotel)
+
+        return hotel, 200
 
     def put(self, hotel_id):
 
+        """
         dados = Hotel.argumentos.parse_args()
 
         hotel_objeto = HotelModel(hotel_id, **dados)
 
         novo_hotel= hotel_objeto.json()
 
-        hotel = Hotel.encontrar_hotel(hotel_id)
+        hotel = get_item(hotel_id)
         if hotel:
-            hotel.update(novo_hotel)
+            hotel = update_bd(novo_hotel[1], novo_hotel[2], novo_hotel[3],novo_hotel[4])
             return novo_hotel, 200 # ok
     
-        hoteis.append(novo_hotel)
-        return novo_hotel, 201 # criado
+        hotel = insert_bd(**novo_hotel)
+        return hotel, 201 # criado """
+        return {'message':'Implementando!'}
 
     def delete(self, hotel_id):
-        global hoteis
-        hoteis = [hotel for hotel in hoteis if hotel['hotel_id'] != hotel_id]
+        delete_bd(hotel_id)
+        
         return {'message':'Hotel deleted'}, 200

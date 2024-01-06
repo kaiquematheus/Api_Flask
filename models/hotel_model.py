@@ -1,4 +1,7 @@
-class HotelModel:
+
+class HotelModel():
+
+
     def __init__(self, hotel_id, nome, estrelas, diaria, cidade):
         self.hotel_id = hotel_id
         self.nome = nome

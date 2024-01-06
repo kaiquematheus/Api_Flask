@@ -1,3 +1,9 @@
+# Master
+
+# MEC_RNIS
+
+---
+
 Criar um ambiente virtual para desenvolver um projeto é crucial, pois proporciona isolamento de dependências, reprodutibilidade e consistência no ambiente de desenvolvimento. Isso evita conflitos entre diferentes versões de bibliotecas, facilita a colaboração em equipe, previne a poluição do sistema operacional com dependências desnecessárias, e oferece suporte para diferentes versões do Python. Além disso, a utilização de ambientes virtuais simplifica a manutenção do projeto, a execução de testes e a integração com ferramentas de desenvolvimento, contribuindo para um desenvolvimento mais eficiente e organizado.
 
 
